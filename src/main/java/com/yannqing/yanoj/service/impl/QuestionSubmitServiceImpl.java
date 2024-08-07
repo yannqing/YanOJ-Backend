@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yannqing.yanoj.common.ErrorCode;
 import com.yannqing.yanoj.exception.BusinessException;
+import com.yannqing.yanoj.judge.JudgeService;
 import com.yannqing.yanoj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.yannqing.yanoj.model.entity.Question;
 import com.yannqing.yanoj.model.entity.QuestionSubmit;
@@ -15,10 +16,12 @@ import com.yannqing.yanoj.service.QuestionSubmitService;
 import com.yannqing.yanoj.service.QuestionSubmitService;
 import com.yannqing.yanoj.mapper.QuestionSubmitMapper;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.concurrent.CompletableFuture;
 
 /**
 * @author 67121
@@ -32,8 +35,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Resource
     private QuestionService questionService;
 
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
+
     /**
-     * 点赞
+     * 提交题目
      *
      * @param questionSubmitAddRequest
      * @param loginUser
@@ -55,12 +62,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (question == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        // 是否已点赞
         long userId = loginUser.getId();
         String code = questionSubmitAddRequest.getCode();
         String language = questionSubmitAddRequest.getLanguage();
         QuestionSubmit questionSubmit = new QuestionSubmit();
-        questionSubmit.setId(userId);
         questionSubmit.setLanguage(language);
         questionSubmit.setCode(code);
         questionSubmit.setQuestionid(questionid);
@@ -73,7 +78,11 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
-        return questionSubmit.getId();
+        Long questionSubmitId = questionSubmit.getId();
+        CompletableFuture.runAsync(() -> {
+            judgeService.doJudge(questionSubmitId);
+        });
+        return questionSubmitId;
     }
 
 }

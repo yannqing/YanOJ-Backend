@@ -1,4 +1,4 @@
-package com.yannqing.yanojbackend.utils;
+package com.yannqing.yanoj.utils;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;

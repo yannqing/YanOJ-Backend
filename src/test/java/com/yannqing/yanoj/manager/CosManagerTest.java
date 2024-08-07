@@ -1,8 +1,7 @@
-package com.yannqing.yanojbackend.manager;
+package com.yannqing.yanoj.manager;
 
 import javax.annotation.Resource;
 
-import com.yannqing.yanoj.manager.CosManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

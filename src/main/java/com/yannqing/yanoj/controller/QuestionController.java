@@ -41,10 +41,8 @@ public class QuestionController {
     @Resource
     private UserService userService;
 
-    // region 增删改查
-
     /**
-     * 创建
+     * 创建题目
      *
      * @param questionAddRequest
      * @param request
@@ -201,7 +199,7 @@ public class QuestionController {
     }
 
     /**
-     * 编辑（用户）
+     * 编辑题目信息 （普通用户）
      *
      * @param questionEditRequest
      * @param request

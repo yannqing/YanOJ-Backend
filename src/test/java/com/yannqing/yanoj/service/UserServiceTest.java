@@ -1,8 +1,7 @@
-package com.yannqing.yanojbackend.service;
+package com.yannqing.yanoj.service;
 
 import javax.annotation.Resource;
 
-import com.yannqing.yanoj.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
