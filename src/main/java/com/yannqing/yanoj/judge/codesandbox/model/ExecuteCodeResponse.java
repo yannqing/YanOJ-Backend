@@ -1,6 +1,5 @@
 package com.yannqing.yanoj.judge.codesandbox.model;
 
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

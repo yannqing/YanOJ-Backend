@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 题目
+ * 新增题目提交请求DTO
  *
  */
 @Data

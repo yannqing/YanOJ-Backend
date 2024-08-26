@@ -1,7 +1,7 @@
 package com.yannqing.yanoj.judge;
 
 import com.yannqing.yanoj.model.dto.question.JudgeCase;
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 import com.yannqing.yanoj.model.entity.Question;
 import com.yannqing.yanoj.model.entity.QuestionSubmit;
 import lombok.Data;

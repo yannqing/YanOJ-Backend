@@ -264,3 +264,62 @@ codeSandbox = new CodeSandboxProxy(codeSandbox);
     6. 返回结果
 7. 修改数据库中的判题结果（修改  `judgeInfo` ，`status` ）
 
+
+
+
+
+## docker 容器
+
+
+
+
+
+### 容器安全
+
+1. 超时控制
+2. 内存资源
+3. 网络资源
+4. 权限管理
+
+#### 权限
+
+Docker 容器已经做了系统层面的隔离，比较安全，但不能保证绝对安全。
+
+1）结合 Java 安全管理器和其他策略去使用
+
+2）限制用户不能向 root 根目录写文件：
+
+```java
+java复制代码CreateContainerResponse createContainerResponse = containerCmd
+        .withHostConfig(hostConfig)
+        .withNetworkDisabled(true)
+        .withReadonlyRootfs(true)
+```
+
+3）Linux 自带的一些安全管理措施，比如 seccomp（Secure Computing Mode）是一个用于 Linux 内核的安全功能，它允许你限制进程可以执行的系统调用，从而减少潜在的攻击面和提高容器的安全性。通过配置 seccomp，你可以控制容器内进程可以使用的系统调用类型和参数。
+
+示例 seccomp 配置文件 profile.json：
+
+```json
+json复制代码{
+  "defaultAction": "SCMP_ACT_ALLOW",
+  "syscalls": [
+    {
+      "name": "write",
+      "action": "SCMP_ACT_ALLOW"
+    },
+    {
+      "name": "read",
+      "action": "SCMP_ACT_ALLOW"
+    }
+  ]
+}
+```
+
+在 hostConfig 中开启安全机制：
+
+```java
+java复制代码String profileConfig = ResourceUtil.readUtf8Str("profile.json");
+hostConfig.withSecurityOpts(Arrays.asList("seccomp=" + profileConfig));
+```
+

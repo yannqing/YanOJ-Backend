@@ -2,7 +2,7 @@ package com.yannqing.yanoj.judge;
 
 import com.yannqing.yanoj.judge.strategy.DefaultJudgeStrategy;
 import com.yannqing.yanoj.judge.strategy.JavaLanguageJudgeStrategy;
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 import com.yannqing.yanoj.model.entity.QuestionSubmit;
 import org.springframework.stereotype.Service;
 

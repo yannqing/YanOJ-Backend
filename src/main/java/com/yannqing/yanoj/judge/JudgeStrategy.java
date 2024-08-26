@@ -1,6 +1,6 @@
 package com.yannqing.yanoj.judge;
 
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 
 /**
  * @description: 判题策略接口

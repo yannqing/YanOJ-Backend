@@ -1,4 +1,4 @@
-package com.yannqing.yanoj.model.dto.questionsubmit;
+package com.yannqing.yanoj.judge.codesandbox.model;
 
 import lombok.Data;
 

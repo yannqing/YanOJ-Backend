@@ -5,7 +5,7 @@ import com.yannqing.yanoj.judge.JudgeContext;
 import com.yannqing.yanoj.judge.JudgeStrategy;
 import com.yannqing.yanoj.model.dto.question.JudgeCase;
 import com.yannqing.yanoj.model.dto.question.JudgeConfig;
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 import com.yannqing.yanoj.model.entity.Question;
 import com.yannqing.yanoj.model.enums.JudgeInfoMessageEnum;
 
@@ -19,7 +19,10 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy {
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
-        Long memory = judgeInfo.getMemory();
+        Long memory = 0L;
+        if (judgeInfo.getMemory() != null) {
+            memory = judgeInfo.getMemory();
+        }
         Long time = judgeInfo.getTime();
         JudgeInfo judgeResponseInfo = new JudgeInfo();
 

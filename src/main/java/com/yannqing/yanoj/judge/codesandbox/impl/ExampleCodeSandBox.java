@@ -3,7 +3,7 @@ package com.yannqing.yanoj.judge.codesandbox.impl;
 import com.yannqing.yanoj.judge.codesandbox.CodeSandBox;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 import com.yannqing.yanoj.model.enums.JudgeInfoMessageEnum;
 import com.yannqing.yanoj.model.enums.QuestionSubmitStatusEnum;
 

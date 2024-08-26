@@ -8,10 +8,8 @@ import com.yannqing.yanoj.judge.codesandbox.CodeSandBoxFactory;
 import com.yannqing.yanoj.judge.codesandbox.CodeSandboxProxy;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
-import com.yannqing.yanoj.judge.strategy.DefaultJudgeStrategy;
 import com.yannqing.yanoj.model.dto.question.JudgeCase;
-import com.yannqing.yanoj.model.dto.question.JudgeConfig;
-import com.yannqing.yanoj.model.dto.questionsubmit.JudgeInfo;
+import com.yannqing.yanoj.judge.codesandbox.model.JudgeInfo;
 import com.yannqing.yanoj.model.entity.Question;
 import com.yannqing.yanoj.model.entity.QuestionSubmit;
 import com.yannqing.yanoj.model.enums.JudgeInfoMessageEnum;
@@ -109,8 +107,21 @@ public class JudgeServiceImpl implements JudgeService {
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCESS.getValue());
         questionSubmitUpdate.setJudgeinfo(JSONUtil.toJsonStr(judgeInfo));
         update = questionSubmitService.updateById(questionSubmitUpdate);
+
         if (!update) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
+        }
+
+        // 修改题目的提交次数
+        Question updateQuestion = new Question();
+        updateQuestion.setId(questionId);
+        updateQuestion.setSubmitnum(question.getSubmitnum() + 1);
+        if (judgeInfo.getMessage().equals(JudgeInfoMessageEnum.ACCEPTED.getValue())) {
+            updateQuestion.setAcceptednum(question.getAcceptednum() + 1);
+        }
+        update = questionService.updateById(updateQuestion);
+        if (!update) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目提交数量更新错误");
         }
         return questionSubmitService.getById(questionSubmitId);
     }

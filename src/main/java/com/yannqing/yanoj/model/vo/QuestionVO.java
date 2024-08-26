@@ -1,6 +1,7 @@
 package com.yannqing.yanoj.model.vo;
 
 import cn.hutool.json.JSONUtil;
+import com.yannqing.yanoj.model.dto.question.JudgeCase;
 import com.yannqing.yanoj.model.dto.question.JudgeConfig;
 import com.yannqing.yanoj.model.entity.Question;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 
 /**
- * 帖子视图
+ * 题目 VO
  *
  */
 @Data
@@ -54,6 +55,8 @@ public class QuestionVO implements Serializable {
      * 判题配置（json 对象）
      */
     private JudgeConfig judgeconfig;
+
+    private List<JudgeCase> judgeCase;
 
     /**
      * 点赞数

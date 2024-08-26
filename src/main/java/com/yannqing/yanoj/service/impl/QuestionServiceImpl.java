@@ -1,6 +1,8 @@
 package com.yannqing.yanoj.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,6 +10,7 @@ import com.yannqing.yanoj.common.ErrorCode;
 import com.yannqing.yanoj.constant.CommonConstant;
 import com.yannqing.yanoj.exception.BusinessException;
 import com.yannqing.yanoj.exception.ThrowUtils;
+import com.yannqing.yanoj.model.dto.question.JudgeCase;
 import com.yannqing.yanoj.model.dto.question.QuestionQueryRequest;
 import com.yannqing.yanoj.model.entity.*;
 import com.yannqing.yanoj.model.vo.QuestionVO;
@@ -115,6 +118,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     @Override
     public QuestionVO getQuestionVO(Question question, HttpServletRequest request) {
         QuestionVO questionVO = QuestionVO.objToVo(question);
+        TypeReference<List<JudgeCase>> typeRef = new TypeReference<List<JudgeCase>>() {};
+        List<JudgeCase> judgeCaseList =  JSONUtil.toList(question.getJudgecase(), JudgeCase.class);
+        questionVO.setJudgeCase(judgeCaseList);
         long questionId = question.getId();
         // 1. 关联查询用户信息
         Long userId = question.getUserid();
