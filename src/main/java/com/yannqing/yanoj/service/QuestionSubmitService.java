@@ -31,6 +31,6 @@ public interface QuestionSubmitService extends IService<QuestionSubmit> {
 
     QuestionSubmitVO getQuestionSubmitVO(QuestionSubmit questionSubmit, User loginUser);
 
-    Page<QuestionSubmitVO> getQuestionSubmitVOPage(Page<QuestionSubmit> questionSubmitPage, User loginUser);
+    Page<QuestionSubmitVO> getQuestionSubmitVOPage(QuestionSubmitQueryRequest questionSubmitQueryRequest, User loginUser);
 
 }

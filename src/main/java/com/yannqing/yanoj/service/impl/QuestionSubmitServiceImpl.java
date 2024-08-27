@@ -146,10 +146,21 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     }
 
     @Override
-    public Page<QuestionSubmitVO> getQuestionSubmitVOPage(Page<QuestionSubmit> questionSubmitPage, User loginUser) {
+    public Page<QuestionSubmitVO> getQuestionSubmitVOPage(QuestionSubmitQueryRequest questionSubmitQueryRequest, User loginUser) {
 
         // 1. 查询所有的 QuestionSubmit 数据
-        List<QuestionSubmit> questionSubmitList = questionSubmitMapper.selectList(null);
+        String language = questionSubmitQueryRequest.getLanguage();
+        Long questionId = questionSubmitQueryRequest.getQuestionId();
+        int current = questionSubmitQueryRequest.getCurrent();
+        int pageSize = questionSubmitQueryRequest.getPageSize();
+        QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(language)) {
+            queryWrapper.eq("language", language);
+        }
+        if (questionId != null) {
+            queryWrapper.eq("questionId", questionId);
+        }
+        List<QuestionSubmit> questionSubmitList = questionSubmitMapper.selectList(queryWrapper);
 
         // 2. 将 QuestionSubmit 转换为 QuestionSubmitVO
         List<QuestionSubmitVO> questionSubmitVOList = questionSubmitList.stream()
@@ -160,16 +171,14 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmitVOList.sort((a, b) -> b.getCreatetime().compareTo(a.getCreatetime()));
 
         // 4. 根据当前页和页大小进行分页
-        int currentPage = (int) questionSubmitPage.getCurrent();
-        int pageSize = (int) questionSubmitPage.getSize();
         int totalCount = questionSubmitVOList.size();
-        int fromIndex = (currentPage - 1) * pageSize;
+        int fromIndex = (current - 1) * pageSize;
         int toIndex = Math.min(fromIndex + pageSize, totalCount);
 
         List<QuestionSubmitVO> pageData = questionSubmitVOList.subList(fromIndex, toIndex);
 
         // 5. 创建分页对象并返回
-        Page<QuestionSubmitVO> questionSubmitVOPage = new Page<>(currentPage, pageSize, totalCount);
+        Page<QuestionSubmitVO> questionSubmitVOPage = new Page<>(current, pageSize, totalCount);
         questionSubmitVOPage.setRecords(pageData);
         return questionSubmitVOPage;
     }

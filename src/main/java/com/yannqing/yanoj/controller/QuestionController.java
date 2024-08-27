@@ -270,12 +270,8 @@ public class QuestionController {
 
     @PostMapping("/question_submit/list/page")
     public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest, HttpServletRequest request) {
-        long current = questionSubmitQueryRequest.getCurrent();
-        long size = questionSubmitQueryRequest.getPageSize();
-        // 从数据库中查询原始的题目提交分页信息
-        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size), questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
 
         final User loginUser = userService.getLoginUser(request);
-        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitQueryRequest, loginUser));
     }
 }
