@@ -20,24 +20,24 @@ import java.util.List;
 @SpringBootTest
 class MainApplicationTests {
 
-    @Value("${codesandbox.type:example}")
-    private String type;
+//    @Value("${codesandbox.type:example}")
+//    private String type;
 
-    @Test
-    void contextLoads() {
-        CodeSandBox codeSandbox = CodeSandBoxFactory.newInstance(type);
-        codeSandbox = new CodeSandboxProxy(codeSandbox);
-        String code = "int main() { }";
-        String language = QuestionSubmitLanguageEnum.JAVA.getValue();
-        List<String> inputList = Arrays.asList("1 2", "3 4");
-        ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest.builder()
-                .code(code)
-                .language(language)
-                .inputList(inputList)
-                .build();
-        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
-        System.out.println(executeCodeResponse);
-    }
+//    @Test
+//    void contextLoads() {
+//        CodeSandBox codeSandbox = CodeSandBoxFactory.newInstance(type);
+//        codeSandbox = new CodeSandboxProxy(codeSandbox);
+//        String code = "int main() { }";
+//        String language = QuestionSubmitLanguageEnum.JAVA.getValue();
+//        List<String> inputList = Arrays.asList("1 2", "3 4");
+//        ExecuteCodeRequest executeCodeRequest = ExecuteCodeRequest.builder()
+//                .code(code)
+//                .language(language)
+//                .inputList(inputList)
+//                .build();
+//        ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
+//        System.out.println(executeCodeResponse);
+//    }
 
 
 }

@@ -157,7 +157,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (StringUtils.isNotBlank(language)) {
             queryWrapper.eq("language", language);
         }
-        if (questionId != null) {
+        if (questionId != null && questionId != 0) {
             queryWrapper.eq("questionId", questionId);
         }
         List<QuestionSubmit> questionSubmitList = questionSubmitMapper.selectList(queryWrapper);
