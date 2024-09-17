@@ -17,7 +17,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql:3306/yanoj
-    username: root
+    username: yannqing
     password: wyjh030208..
   # Redis 配置
   # todo 需替换配置，然后取消注释
