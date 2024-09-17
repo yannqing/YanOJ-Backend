@@ -8,6 +8,7 @@ import com.yannqing.yanoj.judge.codesandbox.CodeSandBox;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @description: 远程代码沙箱（实际调用接口的代码沙箱）
@@ -16,6 +17,9 @@ import org.apache.commons.lang3.StringUtils;
  * @from: <更多资料：yannqing.com>
  **/
 public class RemoteCodeSandBox implements CodeSandBox {
+
+    @Value("${codesandbox.url:http://localhost:8080/executeCode}")
+    private String codeSandBoxUrl;
 
     // 定义鉴权请求头和密钥
     private static final String AUTH_REQUEST_HEADER = "auth";
@@ -26,7 +30,7 @@ public class RemoteCodeSandBox implements CodeSandBox {
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         System.out.println("远程代码沙箱");
 
-        String url = "http://localhost:8080/executeCode";
+        String url = codeSandBoxUrl;
 
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 

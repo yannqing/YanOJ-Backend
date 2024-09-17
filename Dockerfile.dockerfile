@@ -4,7 +4,7 @@ FROM openjdk:17-slim
 # 设置维护者标签
 LABEL maintainer="yannqing <yannqing.com>"
 LABEL version="1.0"
-LABEL description="YanOJ SandBox"
+LABEL description="YanOJ BackEnd"
 
 # 设置工作目录
 WORKDIR /yannqing/yanoj/yanoj-backend/java
@@ -16,7 +16,7 @@ VOLUME /yannqing/yanoj/yanoj-backend/logs
 COPY ./target/yanoj-backend-0.0.1-SNAPSHOT.jar /tmp/app.jar
 
 # 暴露端口
-EXPOSE 8091
+EXPOSE 8092
 
 # 启动命令
-CMD ["java", "-jar", "/tmp/app.jar"]
+CMD ["java", "-jar", "/tmp/app.jar", "--spring.profiles.active=dev"]
