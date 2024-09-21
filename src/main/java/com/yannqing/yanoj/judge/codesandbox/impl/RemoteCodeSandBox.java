@@ -38,6 +38,9 @@ public class RemoteCodeSandBox implements CodeSandBox {
         System.out.println("Request URL: " + url);
         System.out.println("Request Body: " + json);
 
+        String rep = HttpUtil.createGet("http://localhost:8091/test").execute().body();
+        System.out.println("-------------------------> " + rep);
+
         String responseStr = HttpUtil
                 .createPost(codeSandBoxUrl)
                 .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
