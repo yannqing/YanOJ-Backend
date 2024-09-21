@@ -9,6 +9,7 @@ import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -42,7 +43,13 @@ public class RemoteCodeSandBox implements CodeSandBox {
         RestTemplate restTemplate = new RestTemplate();
 
         String urlx = "http://localhost:8091/test";
-        String res = restTemplate.getForObject(urlx, String.class);
+        String res = null;
+        try {
+            res = restTemplate.getForObject(urlx, String.class);
+        } catch (RestClientException e) {
+            System.out.println("error:" + e.getMessage());
+            throw new RuntimeException(e);
+        }
         System.out.println("-------------------------> " + res);
 
         String responseStr = HttpUtil
