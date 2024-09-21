@@ -65,7 +65,7 @@ public class RemoteCodeSandBox implements CodeSandBox {
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
         // 发送 POST 请求
-        ResponseEntity<String> response = restTemplate.exchange(codeSandBoxUrl, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange("http://sandbox:8080/executeCode", HttpMethod.POST, entity, String.class);
 
         String responseStr = response.getBody();
 
