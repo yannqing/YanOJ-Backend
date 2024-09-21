@@ -34,11 +34,11 @@ public class RemoteCodeSandBox implements CodeSandBox {
 
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 
-        System.out.println("Request URL: " + url);
+        System.out.println("Request URL: " + codeSandBoxUrl);
         System.out.println("Request Body: " + json);
 
         String responseStr = HttpUtil
-                .createPost(url)
+                .createPost(codeSandBoxUrl)
                 .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
                 .body(json)
                 .execute()
