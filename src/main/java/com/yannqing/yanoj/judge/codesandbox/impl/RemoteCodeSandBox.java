@@ -30,11 +30,11 @@ public class RemoteCodeSandBox implements CodeSandBox {
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         System.out.println("远程代码沙箱");
 
-        String url = codeSandBoxUrl;
+        String url = "http://localhost:8091executeCode";
 
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 
-        System.out.println("Request URL: " + codeSandBoxUrl);
+        System.out.println("Request URL: " + url);
         System.out.println("Request Body: " + json);
 
         String responseStr = HttpUtil
