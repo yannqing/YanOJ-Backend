@@ -68,4 +68,4 @@ knife4j:
           - com.yannqing.yanoj.controller
 codesandbox:
   type: remote
-  url: http://localhost:8091/executeCode
+  url: http://sandbox:8080/executeCode

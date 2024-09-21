@@ -37,24 +37,23 @@ public class RemoteCodeSandBox implements CodeSandBox {
         System.out.println("远程代码沙箱");
 
 //        String url = codeSandBoxUrl;
-        String url = "http://localhost:8091/executeCode";
 
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 
-        System.out.println("Request URL: " + url);
-        System.out.println("Request Body: " + json);
+//        System.out.println("Request URL: " + url);
+//        System.out.println("Request Body: " + json);
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String urlx = "http://sandbox:8080/test";
-        String res = null;
-        try {
-            res = restTemplate.getForObject(urlx, String.class);
-        } catch (RestClientException e) {
-            System.out.println("error:" + e.getMessage());
-            throw new RuntimeException(e);
-        }
-        System.out.println("-------------------------> " + res);
+//        String urlx = "http://sandbox:8080/test";
+//        String res = null;
+//        try {
+//            res = restTemplate.getForObject(urlx, String.class);
+//        } catch (RestClientException e) {
+//            System.out.println("error:" + e.getMessage());
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("-------------------------> " + res);
 
 
         // 创建请求头
@@ -66,11 +65,11 @@ public class RemoteCodeSandBox implements CodeSandBox {
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
         // 发送 POST 请求
-        ResponseEntity<String> response = restTemplate.exchange("http://sandbox:8080/executeCode", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(codeSandBoxUrl, HttpMethod.POST, entity, String.class);
 
         String responseStr = response.getBody();
 
-        System.out.println("responseStr: " + responseStr);
+        System.out.println("codesandbox responseStr: " + responseStr);
 
 //        String responseStr = HttpUtil
 //                .createPost(codeSandBoxUrl)
