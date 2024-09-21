@@ -30,7 +30,7 @@ public class RemoteCodeSandBox implements CodeSandBox {
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         System.out.println("远程代码沙箱");
 
-        String url = "http://sandbox:8080/executeCode";
+        String url = codeSandBoxUrl;
 
         String json = JSONUtil.toJsonStr(executeCodeRequest);
 
