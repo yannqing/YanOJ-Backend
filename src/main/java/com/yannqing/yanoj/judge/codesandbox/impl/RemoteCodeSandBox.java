@@ -1,5 +1,6 @@
 package com.yannqing.yanoj.judge.codesandbox.impl;
 
+import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.yannqing.yanoj.common.ErrorCode;
@@ -52,12 +53,19 @@ public class RemoteCodeSandBox implements CodeSandBox {
         }
         System.out.println("-------------------------> " + res);
 
-        String responseStr = HttpUtil
-                .createPost(codeSandBoxUrl)
-                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
-                .body(json)
-                .execute()
-                .body();
+
+        String responseStr = null;
+        try {
+            responseStr = HttpUtil
+                    .createPost(codeSandBoxUrl)
+                    .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+                    .body(json)
+                    .execute()
+                    .body();
+        } catch (HttpException e) {
+            System.out.println("==================> " + e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         if (StringUtils.isBlank(responseStr)) {
             throw new BusinessException(ErrorCode.API_REQUEST_ERROR, "execute code remoteCodeSandbox error, message = {}" + responseStr);
