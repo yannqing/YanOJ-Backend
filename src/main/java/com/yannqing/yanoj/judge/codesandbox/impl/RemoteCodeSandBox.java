@@ -9,6 +9,7 @@ import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @description: 远程代码沙箱（实际调用接口的代码沙箱）
@@ -38,8 +39,11 @@ public class RemoteCodeSandBox implements CodeSandBox {
         System.out.println("Request URL: " + url);
         System.out.println("Request Body: " + json);
 
-        String rep = HttpUtil.createGet("http://localhost:8091/test").execute().body();
-        System.out.println("-------------------------> " + rep);
+        RestTemplate restTemplate = new RestTemplate();
+
+        String urlx = "http://localhost:8091/test";
+        String res = restTemplate.getForObject(urlx, String.class);
+        System.out.println("-------------------------> " + res);
 
         String responseStr = HttpUtil
                 .createPost(codeSandBoxUrl)
