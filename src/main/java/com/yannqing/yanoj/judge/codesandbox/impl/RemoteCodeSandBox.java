@@ -42,7 +42,7 @@ public class RemoteCodeSandBox implements CodeSandBox {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String urlx = "http://localhost:8091/test";
+        String urlx = "http://sandbox:8091/test";
         String res = null;
         try {
             res = restTemplate.getForObject(urlx, String.class);
