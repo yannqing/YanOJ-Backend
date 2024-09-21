@@ -1,6 +1,5 @@
 package com.yannqing.yanoj.judge.codesandbox.impl;
 
-import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.yannqing.yanoj.common.ErrorCode;
@@ -10,6 +9,10 @@ import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeRequest;
 import com.yannqing.yanoj.judge.codesandbox.model.ExecuteCodeResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,18 +57,27 @@ public class RemoteCodeSandBox implements CodeSandBox {
         System.out.println("-------------------------> " + res);
 
 
-        String responseStr = null;
-        try {
-            responseStr = HttpUtil
-                    .createPost(codeSandBoxUrl)
-                    .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
-                    .body(json)
-                    .execute()
-                    .body();
-        } catch (HttpException e) {
-            System.out.println("==================> " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        // 创建请求头
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET);
+        headers.set("Content-Type", "application/json"); // 确保内容类型正确
+
+        // 创建请求实体
+        HttpEntity<String> entity = new HttpEntity<>(json, headers);
+
+        // 发送 POST 请求
+        ResponseEntity<String> response = restTemplate.exchange("http://sandbox:8080/executeCode", HttpMethod.POST, entity, String.class);
+
+        String responseStr = response.getBody();
+
+        System.out.println("responseStr: " + responseStr);
+
+//        String responseStr = HttpUtil
+//                .createPost(codeSandBoxUrl)
+//                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+//                .body(json)
+//                .execute()
+//                .body();
 
         if (StringUtils.isBlank(responseStr)) {
             throw new BusinessException(ErrorCode.API_REQUEST_ERROR, "execute code remoteCodeSandbox error, message = {}" + responseStr);
