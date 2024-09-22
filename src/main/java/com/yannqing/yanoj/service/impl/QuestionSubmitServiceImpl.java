@@ -148,11 +148,13 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Override
     public Page<QuestionSubmitVO> getQuestionSubmitVOPage(QuestionSubmitQueryRequest questionSubmitQueryRequest, User loginUser) {
 
-        // 1. 查询所有的 QuestionSubmit 数据
+        // 1. 获取请求数据
         String language = questionSubmitQueryRequest.getLanguage();
         Long questionId = questionSubmitQueryRequest.getQuestionId();
         int current = questionSubmitQueryRequest.getCurrent();
         int pageSize = questionSubmitQueryRequest.getPageSize();
+
+        // 2. 拼接查询条件 以及 按时间排序（倒序）
         QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(language)) {
             queryWrapper.eq("language", language);
@@ -160,26 +162,19 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (questionId != null && questionId != 0) {
             queryWrapper.eq("questionId", questionId);
         }
-        List<QuestionSubmit> questionSubmitList = questionSubmitMapper.selectList(queryWrapper);
+        queryWrapper.orderBy(true, false, "createTime");
 
-        // 2. 将 QuestionSubmit 转换为 QuestionSubmitVO
+        // 3. 分页查询出来 Page<QuestionSubmit>
+        Page<QuestionSubmit> questionSubmitPage= questionSubmitMapper.selectPage(new Page<>(current, pageSize), queryWrapper);
+
+        // 4. 将 Page<QuestionSubmit> 转化为 Page<QuestionSubmitVO>, 并返回结果
+        Page<QuestionSubmitVO> questionSubmitVOPage = new Page<>(current, pageSize);
+        List<QuestionSubmit> questionSubmitList = questionSubmitPage.getRecords();
         List<QuestionSubmitVO> questionSubmitVOList = questionSubmitList.stream()
                 .map(questionSubmit -> getQuestionSubmitVO(questionSubmit, loginUser))
                 .collect(Collectors.toList());
+        questionSubmitVOPage.setRecords(questionSubmitVOList);
 
-        // 3. 对 QuestionSubmitVO 列表进行排序
-        questionSubmitVOList.sort((a, b) -> b.getCreatetime().compareTo(a.getCreatetime()));
-
-        // 4. 根据当前页和页大小进行分页
-        int totalCount = questionSubmitVOList.size();
-        int fromIndex = (current - 1) * pageSize;
-        int toIndex = Math.min(fromIndex + pageSize, totalCount);
-
-        List<QuestionSubmitVO> pageData = questionSubmitVOList.subList(fromIndex, toIndex);
-
-        // 5. 创建分页对象并返回
-        Page<QuestionSubmitVO> questionSubmitVOPage = new Page<>(current, pageSize, totalCount);
-        questionSubmitVOPage.setRecords(pageData);
         return questionSubmitVOPage;
     }
 }

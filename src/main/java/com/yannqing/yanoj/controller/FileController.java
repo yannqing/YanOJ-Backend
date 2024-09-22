@@ -1,33 +1,22 @@
 package com.yannqing.yanoj.controller;
 
 import cn.hutool.core.io.FileUtil;
-import com.yannqing.yanoj.common.BaseResponse;
 import com.yannqing.yanoj.common.ErrorCode;
-import com.yannqing.yanoj.common.ResultUtils;
-import com.yannqing.yanoj.constant.FileConstant;
-import com.yannqing.yanoj.model.dto.file.UploadFileRequest;
-import com.yannqing.yanoj.model.entity.User;
 import com.yannqing.yanoj.model.enums.FileUploadBizEnum;
 import com.yannqing.yanoj.service.UserService;
 import com.yannqing.yanoj.exception.BusinessException;
 
-import java.io.File;
 import java.util.Arrays;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件接口
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @RestController
 @RequestMapping("/file")
